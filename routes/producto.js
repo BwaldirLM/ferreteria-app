@@ -34,5 +34,38 @@ router.get('/detalle/:id', isLogged, async(req, res)=>{
     res.render('producto/detalle',{"producto": resultado[0]});
 });
 
+router.get('/agregar',(req, res)=>{
+    res.render('producto/agregar')
+})
+
+router.post('/agregar', async(req,res)=>{
+    try {
+        upload.single('imagen')(req, res, async (err) => {
+          if (err instanceof multer.MulterError) {
+            return res.status(400).send('Error al subir la imagen');
+          } else if (err) {
+            return res.status(500).send('Error interno del servidor');
+          }
+    
+          const imagenSubida = req.file; // Acceder al archivo subido
+          if (!imagenSubida) {
+            return res.status(400).send('No se ha proporcionado una imagen');
+          }
+    
+          const imagenContenido = imagenSubida.buffer; // Obtener el contenido de la imagen en bytes
+          
+          let datos = req.body;
+          datos.imagen = imagenContenido;
+          datos.mimetype = imagenSubida.mimetype;
+            await pool.query('INSERT INTO Producto SET ?',[datos]);
+          res.redirect('/producto');
+        });
+      } catch (error) {
+        console.error(error);
+        res.status(500).send('Error al procesar la imagen');
+      }
+    //await pool.query('INSERT INTO Mueble SET ?',[req.body]);
+    //res.redirect('/mueble');
+});
 
 module.exports = router;
