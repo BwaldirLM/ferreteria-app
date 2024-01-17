@@ -1,0 +1,81 @@
+
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Producto</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="/producto/">Productos</a></li>
+              <li class="breadcrumb-item active">Detalle</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="card card-solid">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12 col-sm-6">
+              <div class="col-12">
+                <img src="data:{{producto.mimeType}};base64,{{producto.imagen}}" class="product-image" alt="Product Image">
+              </div>
+              
+            </div>
+            <div class="col-12 col-sm-6">
+              <h3 class="my-3">{{producto.tipo}}</h3>
+              <p>{{producto.descripcion}}.</p>
+
+              <hr>
+
+              <h5 class="mt-4">Stock disponible: {{producto.stock}} unid.</h5>
+
+              <hr>
+              <h4 class="mt-3">{{producto.categoria}}</h4>
+              <div class="row">
+                <div class="col-3">
+                  <button class="btn btn-primary" id="decrementar">-</button>
+                </div>
+                <div class="col-3">
+                  <h3 id="valor">1</h3>
+                </div>
+                <div class="col-3">
+                  <button class="btn btn-primary" id="incrementar">+</button>
+                </div>
+              </div>
+              
+              <div class="row align-items-center">
+                <div class="col-6">
+                    <div class="bg-green py-2 px-3 mt-4">
+                        <h2 class="mb-0 text-center">
+                            {{moneyFormat producto.precio}}
+                        </h2>                
+                    </div>
+                </div>
+                <div class="col-6 disabled">                    
+                    <button type="button" class="btn btn-block bg-gradient-warning" onclick="agregar({{producto.id}})">
+                      <i class="fas fa-cart-plus fa-lg mr-2"></i>
+                        Agregar
+                    </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          
+        </div>
+        <!-- /.card-body -->
+      </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->

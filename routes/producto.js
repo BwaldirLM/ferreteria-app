@@ -27,5 +27,12 @@ router.get('/', isLogged, async(req, res)=>{
     res.render('producto/ver', {"productos": productos/*, "carrito": infoCarrito, 'cantidad': cantidadTotal*/});
 });
 
+router.get('/detalle/:id', isLogged, async(req, res)=>{
+    let {id} = req.params;
+    let resultado = await pool.query('Select * from Producto where id = ?',[id]);
+    resultado[0].imagen = resultado[0].imagen.toString('base64');
+    res.render('producto/detalle',{"producto": resultado[0]});
+});
+
 
 module.exports = router;
