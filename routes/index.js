@@ -1,9 +1,11 @@
-var express = require('express');
-var router = express.Router();
+const {Router} = require('express');
+const pool = require('../bin/database');
+const { isLogged } = require('../util/auth');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+const router = Router();
+
+router.get('',isLogged, async(req, res)=>{
+    res.render('index/index',{'user': req.user});
 });
 
 module.exports = router;
