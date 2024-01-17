@@ -64,10 +64,10 @@ const authRouter = require('./routes/auth');
 const indexRouter = require('./routes/index');
 //const comprasRouter = require('./routes/compras');
 //const ventasRouter = require('./routes/ventas');
-//const productoRouter = require('./routes/producto');
+const productoRouter = require('./routes/producto');
 
 //Rutas
-//app.use('/producto', productoRouter);
+app.use('/producto', productoRouter);
 //app.use('/carrito', carritoRouter);
 app.use('', authRouter);
 app.use('/index', indexRouter);
