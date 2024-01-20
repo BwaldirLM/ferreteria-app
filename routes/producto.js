@@ -30,9 +30,39 @@ router.get('/', isLogged, async(req, res)=>{
 router.get('/detalle/:id', isLogged, async(req, res)=>{
     let {id} = req.params;
     let resultado = await pool.query('Select * from Producto where id = ?',[id]);
-    resultado[0].imagen = resultado[0].imagen.toString('base64');
-    res.render('producto/detalle',{"producto": resultado[0]});
+    resultado[0][0].imagen = resultado[0][0].imagen.toString('base64');
+    res.render('producto/detalle',{"producto": resultado[0][0]});
 });
+
+router.post('/detalle/:id',isLogged, async(req, res)=>{
+  const {cantidad} = req.body;
+  let {id} = req.params;
+  let usuario_id = req.user.DNI;
+  if(cantidad > 0){
+      let carritoLibre = await pool.query('select * from Carrito where estado = ? and id_usuario = ?', ['libre', usuario_id])
+      if(carritoLibre[0].length > 0){
+          let id_carrito = carritoLibre[0][0].id;
+          let item =await pool.query('SELECT * FROM ItemCarrito WHERE id_carrito = ? AND id_producto = ?', [id_carrito, id]);
+          if(item[0].length > 0){
+              const cantidadActualizada = parseInt(item[0][0].cantidad) + parseInt(cantidad);
+              await pool.query('UPDATE ItemCarrito SET cantidad = ? WHERE id_carrito = ? AND id_producto = ?', [cantidadActualizada, id_carrito, id]);
+          }
+          else{
+              await pool.query('insert into ItemCarrito (id_carrito, id_producto, cantidad) VALUES (?, ?, ?)',[id_carrito, id, cantidad]);
+          }               
+      }
+      else{
+          let carrito = await pool.query('INSERT INTO Carrito (id_usuario) VALUES (?)', [usuario_id]);
+          let id_carrito = carrito[0].insertId;
+          await pool.query('insert into ItemCarrito (id_carrito, id_producto, cantidad) VALUES (?, ?, ?)',[id_carrito, id, cantidad]);       
+
+      }
+
+  }
+  
+  res.redirect('/producto')
+});
+
 
 router.get('/agregar',(req, res)=>{
     res.render('producto/agregar')

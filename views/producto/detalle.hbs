@@ -79,3 +79,37 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  $(document).ready(()=>{
+    let contador = 1;
+    $('#incrementar').click((event)=>{
+      if(contador < {{producto.stock}})
+      contador++;
+      $('#valor').text(contador);
+    });
+    $('#decrementar').click((event)=>{
+      if(contador > 1)
+      contador--;
+      $('#valor').text(contador);
+    });
+  });
+  function agregar(producto) {
+  // Obtener la cantidad del elemento con el id "valor"
+  let cantidad = $('#valor').text();
+
+  // Realizar una solicitud POST usando Axios
+  axios.post(`/producto/detalle/${producto}`, { cantidad })
+    .then(response => {
+      // Manejar la respuesta si es necesario
+      console.log('Solicitud POST exitosa:', response.data);
+      // Redirigir después de la solicitud POST
+      window.location.href = '/producto';
+    })
+    .catch(error => {
+      // Manejar errores si la solicitud no fue exitosa
+      console.error('Error en la solicitud POST:', error);
+    });
+}
+
+</script>
