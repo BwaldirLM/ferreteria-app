@@ -4,7 +4,7 @@ const { isLogged } = require('../util/auth');
 
 const router = Router();
 
-router.get('',isLogged, async(req, res)=>{
+router.get('', async(req, res)=>{
     res.render('index/index',{'user': req.user});
 });
 

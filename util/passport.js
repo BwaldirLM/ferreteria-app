@@ -17,10 +17,10 @@ passport.use('local.login', new localStrategy({
         console.log(contrasena);
         if (consulta.length > 0) {
             let user = consulta;
-            let validPassword = await helpers.matchPassword(contrasena, user[0].contrasena);
+            let validPassword = await helpers.matchPassword(contrasena, user[0][0].contrasena);
             if (validPassword) {
                 // Autenticación exitosa
-                return done(null, user[0]);  // No es necesario el tercer argumento
+                return done(null, user[0][0]);  // No es necesario el tercer argumento
             } else {
                 // Contraseña incorrecta
                 return done(null, false, { message: 'Contraseña Incorrecta' });
@@ -87,5 +87,5 @@ passport.serializeUser((usr, done)=>{
 
 passport.deserializeUser((async(id, done)=>{
    const rows = await pool.query('SELECT U.usuario, DNI, nombres, apellidos, email, RUC, rol FROM Persona P inner join Usuario U on P.usuario = U.usuario  WHERE U.usuario = ?', [id])
-   done(null, rows[0])
+   done(null, rows[0][0])
 }))

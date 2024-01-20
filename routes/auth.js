@@ -14,7 +14,7 @@ router.get('/', isNotLogged, (req, res)=>{
 router.post('/', (req, res, next)=>{
     passport.authenticate('local.login', {
         successRedirect: '/index',
-        failureRedirect: '/ingreso',
+        failureRedirect: '/',
         failureFlash: true
      })(req, res, next) 
 });
@@ -25,7 +25,7 @@ router.get('/registro', isNotLogged, (req, res)=>{
 
 router.post('/registro',(req, res, next)=>{
     passport.authenticate('local.signup', {
-       successRedirect: '/ingreso',
+       successRedirect: '/',
        failureRedirect: '/registro',
        failureFlash: true
     })(req, res, next)
@@ -37,7 +37,7 @@ router.post('/registro',(req, res, next)=>{
             console.log(err);
         }
     });
-    res.redirect('/ingreso');
+    res.redirect('/');
  });
 
 module.exports = router

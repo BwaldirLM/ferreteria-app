@@ -25,6 +25,8 @@ pool.getConnection((err, connection) => {
   if (!err) console.log('DB está conectada');
 });
 
-pool.query = promisify(pool.query);
+//pool.query = promisify(pool.query);
+pool.query = promisify(pool.query).bind(pool);
 
-module.exports = pool;
+//module.exports = pool;
+module.exports = pool.promise();

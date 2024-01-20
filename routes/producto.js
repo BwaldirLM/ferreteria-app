@@ -13,7 +13,7 @@ const upload = multer({ storage: storage });
 
 router.get('/', isLogged, async(req, res)=>{
     let productos = await pool.query('select * from Producto');
-    for(let producto of productos){
+    for(let producto of productos[0]){
         producto.imagen = producto.imagen.toString('base64');
     }
     /*
@@ -24,7 +24,7 @@ router.get('/', isLogged, async(req, res)=>{
             cantidadTotal += item.cantidad;
         }   
     }*/
-    res.render('producto/ver', {"productos": productos/*, "carrito": infoCarrito, 'cantidad': cantidadTotal*/});
+    res.render('producto/ver', {"productos": productos[0]/*, "carrito": infoCarrito, 'cantidad': cantidadTotal*/});
 });
 
 router.get('/detalle/:id', isLogged, async(req, res)=>{
@@ -66,6 +66,15 @@ router.post('/agregar', async(req,res)=>{
       }
     //await pool.query('INSERT INTO Mueble SET ?',[req.body]);
     //res.redirect('/mueble');
+});
+
+router.get('/:categoria',async (req, res)=>{
+  let {categoria} = req.params;
+  let resultado = await pool.query('SELECT * FROM Producto WHERE categoria = ?', [categoria]);
+  for (let producto of resultado[0]) {
+    producto.imagen = producto.imagen.toString('base64');
+  }
+res.json(resultado[0]);
 });
 
 module.exports = router;

@@ -43,65 +43,67 @@
   </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
-<!--
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    //const todoLink = document.getElementById('todo-link');
-    const herramientasLink = document.getElementById('herramientas-link');
-    const construccionLink = document.getElementById('construccion-link');
+  $(document).ready(function() {
+  // Seleccionar elementos por ID usando jQuery
+  const herramientasLink = $('#herramientas');
+  const construccionLink = $('#construccion');
+  const electricidadLink = $('#electricidad');
+  const gasfiteriaLink = $('#gasfiteria');
 
-    // Agrega otros enlaces según sea necesario
-    /*
-    todoLink.addEventListener('click', function (event) {
-      event.preventDefault();
-      getProductosByCategoria('Todo');
-    });
-    */
-    herramientasLink.addEventListener('click', function (event) {
-      event.preventDefault();
-      getProductosByCategoria('Herramientas');
-    });
-    construccionLink.addEventListener('click', function (event) {
-      event.preventDefault();
-      getProductosByCategoria('Construccion');
-    });
-    // Agrega otros eventos según sea necesario
-
-    async function getProductosByCategoria(categoria) {
-      try {
-        const response = await axios.get(`/producto/${categoria}`);
-        const productos = response.data;
-        console.log(productos);
-        
-        const productContainer = document.getElementById('productos')
-        productContainer.innerHTML = '';
-        productos.forEach(producto=>{
-            const productCard = `
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="card card-solid">
-                    <div class="card-body">
-                        <div class="col-12">
-                            <img src="data:${producto.mimeType};base64,${producto.imagen}" class="product-image" alt="Product Image">
-                        </div>
-                        <p><strong>${producto.descripcion}</strong></p>
-                        <span>${producto.categoria}</span>
-                        <p class="h3">S/. ${producto.precio}</p>
-
-                        <a href="/producto/detalle/${producto.id}" class="btn btn-block btn-info btn-lg">Detalles</a>
-                    </div>
-                    </div>            
-                </div>
-            `;
-            productContainer.innerHTML += productCard;
-        });
-        // Lógica para mostrar los productos en el DOM (puedes utilizar un framework como Vue o React para hacerlo más fácilmente)
-        // ...
-
-      } catch (error) {
-        console.error('Error al obtener productos por categoría', error);
-      }
-    }
+  // Agregar eventos de clic con jQuery
+  herramientasLink.click(function(event) {
+    event.preventDefault();
+    getProductosByCategoria('Herramienta');
   });
+
+  construccionLink.click(function(event) {
+    event.preventDefault();
+    getProductosByCategoria('Construccion');
+  });
+
+  electricidadLink.click(function(event) {
+    event.preventDefault();
+    getProductosByCategoria('Electricidad');
+  });
+
+  gasfiteriaLink.click(function(event) {
+    event.preventDefault();
+    getProductosByCategoria('Gasfiteria');
+  });
+
+
+  async function getProductosByCategoria(categoria) {
+    try {
+      const response = await axios.get(`/producto/${categoria}`);
+      const productos = response.data;
+
+      const productContainer = $('#productos');
+      productContainer.empty();
+
+      productos.forEach(producto => {
+        const productCard = `
+          <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="card card-solid">
+              <div class="card-body">
+                <div class="col-12">
+                  <img src="data:${producto.mimeType};base64,${producto.imagen}" class="product-image" alt="Product Image">
+                </div>
+                <p><strong>${producto.descripcion}</strong></p>
+                <span>${producto.categoria}</span>
+                <p class="h3">S/. ${producto.precio}</p>
+                <a href="/producto/detalle/${producto.id}" class="btn btn-block btn-info btn-lg">Detalles</a>
+              </div>
+            </div>
+          </div>
+        `;
+        productContainer.append(productCard);
+      });
+
+    } catch (error) {
+      console.error('Error al obtener productos por categoría', error);
+    }
+  }
+});
 </script>
--->
