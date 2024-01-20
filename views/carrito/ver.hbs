@@ -1,0 +1,89 @@
+
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Mi carrito</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item active"><a href="#">Carrito</a></li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+            <div class="col col-lg-8 col-md-8 col-sm-12">
+                <div class="card card-outline card-primary">
+                    <!-- /.card-header -->
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover text-nowrap">
+                            <thead>
+                                <tr class="text-center">
+                                    <th>Producto</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio Unit.</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each carrito}}
+                                    <tr class="text-center">
+                                        <td>
+                                            <div class="row">
+                                                
+                                                <div class="col col-4">
+                                                    <img src="data:{{mimeType}};base64,{{imagen}}" class="product-image" alt="Product Image">
+                                                </div>
+                                                <div class="col col-8">
+                                                    <strong>{{tipo}}</strong>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle">{{cantidad}}</td>
+                                        <td class="align-middle">{{moneyFormat precio}}</td>
+                                        <td class="align-middle">{{moneyFormat precio_total}}</td>
+                                        
+                                    </tr>        
+                                {{/each}}
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
+            <div class="col col-lg-4 col-md-4 col-sm-12">
+                <div class="card card-outline card-success">
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col col-7">
+                                <strong>Total</strong>
+                            </div>
+                            <div class="col col-5">
+                                <Strong>{{moneyFormat total}}</Strong>
+                            </div>
+                        </div>
+                        <form action="/carrito" method="POST">
+                            <button type="input"  class="btn btn-outline-success">Pagar</button>
+                        </form>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->

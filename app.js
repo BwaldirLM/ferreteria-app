@@ -59,7 +59,7 @@ app.use((req, res, next)=>{
 
 //importar rutas
 //const muebleRouter = require('./routes/mueble');
-//const carritoRouter = require('./routes/carrito');
+const carritoRouter = require('./routes/carrito');
 const authRouter = require('./routes/auth');
 const indexRouter = require('./routes/index');
 //const comprasRouter = require('./routes/compras');
@@ -68,7 +68,7 @@ const productoRouter = require('./routes/producto');
 
 //Rutas
 app.use('/producto', productoRouter);
-//app.use('/carrito', carritoRouter);
+app.use('/carrito', carritoRouter);
 app.use('', authRouter);
 app.use('/index', indexRouter);
 //app.use('/compras', comprasRouter);
