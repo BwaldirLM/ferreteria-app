@@ -18,9 +18,13 @@ router.get('/', isLogged, async(req, res)=>{
     }
     
     let cantidad = await pool.query('select sum(cantidad) as total from Carrito C inner join ItemCarrito IC on C.id = IC.id_carrito where id_usuario = ? and estado = ?  group by id_usuario;', [req.user.DNI, 'libre'])
+    console.log(cantidad);
     let infoCarrito = await pool.query('select tipo, cantidad from Carrito as C inner join ItemCarrito as IC on C.id = IC.id_carrito inner join Producto as P on IC.id_producto = P.id where estado = ? and id_usuario = ?', ['libre', req.user.DNI])
-
+    if(cantidad[0].length > 0)
     res.render('producto/ver', {"productos": productos[0], "carrito": infoCarrito[0], 'cantidad': cantidad[0][0].total});
+    else
+    res.render('producto/ver', {"productos": productos[0]});
+
 });
 
 router.get('/detalle/:id', isLogged, async(req, res)=>{

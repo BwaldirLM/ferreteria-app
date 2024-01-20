@@ -1,0 +1,114 @@
+<section class="content-header">
+   <div class="container-fluid">
+      <div class="row mb-2">
+         <div class="col-sm-6">
+         <h1>Compras</h1>
+         </div>
+         <div class="col-sm-6">
+         <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+            <li class="breadcrumb-item active">Compras</li>
+         </ol>
+         </div>
+      </div>
+   </div><!-- /.container-fluid -->
+   </section>
+<div class="container">
+   <div class="card mx-4">
+   <div class="card-header">
+      <h3 class="card-title">Equipos</h3>
+   </div>
+   <!-- /.card-header -->
+   <div class="card-body p-0">
+      <table class="table table-striped">
+      <thead>
+         <tr>
+            <th>Id</th>
+            <th>Cantidad</th>
+            <th>Costo Total</th>
+            <th>Fecha Adquisicion</th>
+            <th>Detalles</th>
+                 
+         </tr>
+      </thead>
+      <tbody>
+         {{#each compras}}
+         <tr>
+            <td>{{id}}</td>
+            <td>{{CantidadTotal}}</td>
+            <td>{{moneyFormat PrecioTotal}}</td>
+            <td>{{dateFormat fecha "D/M/Y"}}</td>
+            <td>
+               <div class="btn-group">
+                  <button type="button" class="btn btn-info" onclick="detalles({{id}})">Detalles</button>
+               </div>
+            </td>
+         </tr>
+         {{/each}}
+      </tbody>
+      </table>
+   </div>
+   <!-- /.card-body -->
+</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="detalles_venta" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Detalles de la compra</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body">
+            <table class="table table-striped">
+      <thead>
+         <tr class="text-center">
+            <th>Cantidad</th>
+            <th>Detalles</th>
+            <th>Precio</th>
+            <th>Mas detalles</th>
+                 
+         </tr>
+      </thead>
+      <tbody id="detalles">
+         
+      </tbody>
+      </table>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+         </div>
+      </div>
+   </div>
+</div>
+<script>
+    function detalles(id) {
+            $('#detalles_venta').modal('show');
+            axios.get(`/compras/${id}/detalle`)
+                .then(response => {
+                    $('#detalles').empty();
+                    response.data.forEach((detalle) => {
+                        $('#detalles').append(`
+                            <tr class="text-center">
+                                <td class="align-middle">${detalle.cantidad}</td>
+                                <td class="align-middle">                        
+                                    <p>${detalle.tipo}<b><br>${detalle.categoria}</b></p>
+                                </td>
+                                <td class="align-middle">S/. ${detalle.precio}</td>
+                                <td class="align-middle">
+                                    <div class="btn-group">
+                                        <a href="/producto/detalle/${detalle.id}" class="btn btn-info">Ver Producto</a>
+                                    </div>
+                                </td>
+                            </tr>`);
+                    });
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+    
+</script>
