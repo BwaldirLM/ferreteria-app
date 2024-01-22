@@ -13,8 +13,6 @@ passport.use('local.login', new localStrategy({
 }, async (req, usuario, contrasena, done) => {
     try {
         let consulta = await pool.query('SELECT * FROM Usuario WHERE usuario = ?', [usuario]);
-        console.log(consulta);
-        console.log(contrasena);
         if (consulta.length > 0) {
             let user = consulta;
             let validPassword = await helpers.matchPassword(contrasena, user[0][0].contrasena);

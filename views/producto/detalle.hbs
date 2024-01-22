@@ -50,20 +50,21 @@
                   <button class="btn btn-primary" id="incrementar">+</button>
                 </div>
               </div>
-              
-              <div class="row align-items-center">
-                <div class="col-6">
-                    <div class="bg-green py-2 px-3 mt-4">
-                        <h2 class="mb-0 text-center">
+                             
+                <div class="margin">
+                  <div class="btn-group">
+                    <div class="py-2 px-3 mt-4">
+                        <h2 class="text-center">
                             {{moneyFormat producto.precio}}
                         </h2>                
                     </div>
-                </div>
-                <div class="col-6 disabled">                    
-                    <button type="button" class="btn btn-block bg-gradient-warning" onclick="agregar({{producto.id}})">
+                  </div>
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-block bg-gradient-warning py-2 px-3 mt-4" onclick="agregar({{producto.id}})">
                       <i class="fas fa-cart-plus fa-lg mr-2"></i>
                         Agregar
                     </button>
+                  </div>
                 </div>
               </div>
 

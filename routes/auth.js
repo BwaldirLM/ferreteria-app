@@ -25,7 +25,7 @@ router.get('/registro', isNotLogged, (req, res)=>{
 
 router.post('/registro',(req, res, next)=>{
     passport.authenticate('local.signup', {
-       successRedirect: '/',
+       successRedirect: '/index',
        failureRedirect: '/registro',
        failureFlash: true
     })(req, res, next)
