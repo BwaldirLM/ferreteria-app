@@ -11,7 +11,7 @@ module.exports = {
       if(!req.isAuthenticated()){
          return next()
       }
-      return res.redirect('/ingreso')
+      return res.redirect('/')
    },
 
    isAdmin(req, res, next){

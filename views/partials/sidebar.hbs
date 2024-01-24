@@ -31,17 +31,17 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item menu">
-            <div class="nav-link active">
+          <li class="nav-item menu" id="producto">
+            <a href="#" class="nav-link" id="principal">
               <i class="nav-icon fas fa-barcode"></i>
               <p>
                 Productos
                 <i class="right fas fa-angle-left"></i>
               </p>
-            </div>
+            </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/producto" class="nav-link active">
+                <a href="/producto" class="nav-link" id="todo">
                   <i class="fas fa-list nav-icon"></i>
                   <p>Todo</p>
                 </a>
@@ -72,7 +72,7 @@
               </li>
               {{#isEqual user.rol 'administrador'}}
               <li class="nav-item">
-                <a href="/producto/agregar" class="nav-link">
+                <a href="/producto/agregar" class="nav-link" id="agregar">
                   <i class="fas fa-plus-circle nav-icon"></i>
                   <p>Agregar</p>
                 </a>
@@ -81,8 +81,8 @@
               
             </ul>
           </li>
-          <li class="nav-item menu">
-            <a href="#" class="nav-link ">
+          <li class="nav-item menu"  id="compras">
+            <a href="#" class="nav-link">
               <i class="nav-icon fas fa-shopping-bag"></i>
               <p>
                 Compras
@@ -91,7 +91,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/compras" class="nav-link active">
+                <a href="/compras" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Ver</p>
                 </a>
@@ -109,7 +109,7 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="/ventas" class="nav-link active">
+                  <a href="/ventas" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Ver</p>
                   </a>

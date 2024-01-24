@@ -54,11 +54,13 @@ app.use(passport.session());
 //Global variables
 app.use((req, res, next)=>{
   app.locals.user = req.user 
+  app.locals.success = req.flash('success')
+  app.locals.message = req.flash('message')
+  app.locals.alerta = req.flash('alerta')
   next();
 });
 
 //importar rutas
-//const muebleRouter = require('./routes/mueble');
 const carritoRouter = require('./routes/carrito');
 const authRouter = require('./routes/auth');
 const indexRouter = require('./routes/index');

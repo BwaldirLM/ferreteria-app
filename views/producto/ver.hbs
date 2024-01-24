@@ -28,7 +28,6 @@
             <div class="col-12">
                 <img src="data:{{mimeType}};base64,{{imagen}}" class="product-image" alt="Product Image">
             </div>
-            <p><strong>{{descripcion}}</strong></p>
             <span>{{categoria}}</span>
             <p class="h3">S/. {{precio}}</p>
 
@@ -43,7 +42,6 @@
   </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
   $(document).ready(function() {
   // Seleccionar elementos por ID usando jQuery
@@ -90,7 +88,6 @@
                 <div class="col-12">
                   <img src="data:${producto.mimeType};base64,${producto.imagen}" class="product-image" alt="Product Image">
                 </div>
-                <p><strong>${producto.descripcion}</strong></p>
                 <span>${producto.categoria}</span>
                 <p class="h3">S/. ${producto.precio}</p>
                 <a href="/producto/detalle/${producto.id}" class="btn btn-block btn-info btn-lg">Detalles</a>

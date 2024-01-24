@@ -59,7 +59,7 @@ router.post('/detalle/:id',isLogged, async(req, res)=>{
       }
 
   }
-  
+  req.flash('message','Se agrego el producto al carrito');
   res.redirect('/producto')
 });
 
@@ -88,6 +88,7 @@ router.post('/agregar', async(req,res)=>{
           datos.imagen = imagenContenido;
           datos.mimetype = imagenSubida.mimetype;
             await pool.query('INSERT INTO Producto SET ?',[datos]);
+            req.flash('success','Se egrego un producto nuevo');
           res.redirect('/producto');
         });
       } catch (error) {
