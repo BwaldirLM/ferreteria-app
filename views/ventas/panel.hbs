@@ -1,0 +1,192 @@
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0">Panel de Venta</h1>
+      </div><!-- /.col -->
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="#"> </a>Ventas / Panel</li>
+        </ol>
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<div class="content">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-7">
+        <form action="">
+          <div class="input-group">
+            <input type="text" class="form-control">
+            <div class="input-group-append">
+              <select name="" id="" class="form-select form-control">
+                <option selected value="tipo">Tipo</option>
+                <option value="codigo">Codigo</option>
+              </select>
+            </div>
+          </div>
+        </form>
+        <div class="p-1" id="busqueda">
+          <div class="card">
+            <div class="card-header border-0">
+              <h3 class="card-title">Productos</h3>
+              
+            </div>
+            <div class="card-body table-responsive p-0">
+              <table class="table table-striped table-valign-middle">
+                <thead>
+                  <tr>
+                    <th>Producto</th>
+                    <th>Precio</th>
+                    <th>Stock</th>
+                    <th>Agregar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each productos}}
+                  <tr>
+                    <td>{{tipo}} - {{marca}}</td>
+                    <td>{{moneyFormat precio}}</td>
+                    <td>{{stock}}</td>
+                    <td> 
+                      <button onclick="stock({{precio}},{{id}})" class="btn btn-app bg-teal">
+                        <i class="fas fa-cart-plus"></i></td>
+                      </button>
+                  </tr>
+                  {{/each}}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-5">
+        <div class="p-1" id="detalles">
+          <div class="card card-outline card-indigo">
+            <div class="card-header">
+              <h3 class="card-title">Danger Outline</h3>
+            </div>
+            <div class="card-body">
+              <table class="table table-head-fixed text-nowrap">
+                <thead>
+                  <tr>
+                    <th>Cantidad</th>
+                    <th>ID Producto</th>
+                    <th>Precio unitario</th>
+                  </tr>
+                </thead>
+                <tbody id="detalles_venta">
+
+                </tbody>
+              </table>
+            </div>
+            <div class="card-footer" id="contenedorVender" style="display: none;">
+              <button id="botonVender" class="btn btn-success">Vender</button>
+            </div>
+          </div>
+        </div>            
+      </div>
+    </div>
+    <!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+<!-- /.content -->
+<!-- Modal -->
+<div class="modal fade" id="stock" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Cantidad</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body">
+            <input id="cantidad"  class="form-control" type="text" placeholder="Ingrese cantidad" value="1">
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-success" id="agregar">Agregar</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+         </div>
+      </div>
+   </div>
+</div>
+<script>
+function stock(precio, id) {
+    // Establece el ID y el precio en el botón Agregar antes de mostrar la ventana modal
+    $('#agregar').data('id', id).data('precio', precio);
+    $('#stock').modal('show');
+}
+function actualizarBotonVender() {
+    if ($('#detalles_venta tr').length > 0) {
+        // Muestra el botón Vender si hay al menos una fila en la tabla
+        $('#contenedorVender').show();
+    } else {
+        // Oculta el botón Vender si la tabla está vacía
+        $('#contenedorVender').hide();
+    }
+}
+function enviarDatos(productos) {
+    axios.post('/ventas/panel', { productos: productos })
+        .then(function(response) {
+            console.log(response.data);
+            // Aquí puedes manejar la respuesta del servidor
+        })
+        .catch(function(error) {
+            console.error(error);
+            // Manejar errores aquí
+        });
+}
+
+$(document).ready(function() {
+    $('#agregar').click(function() {
+        var id = $(this).data('id');
+        var precio = $(this).data('precio');
+        var cantidadIngresada = parseInt($('#cantidad').val(), 10); // Obtiene la cantidad del input y la convierte a número
+
+        var filaExistente = $(`#detalles_venta tr[data-id='${id}']`);
+        if (filaExistente.length > 0) {
+            // Producto ya existe en la tabla, incrementar la cantidad
+            var cantidadActual = parseInt(filaExistente.data('cantidad'), 10);
+            var nuevaCantidad = cantidadActual + cantidadIngresada;
+            filaExistente.data('cantidad', nuevaCantidad); // Actualiza el atributo data-cantidad
+            filaExistente.find('td:first').text(nuevaCantidad); // Actualiza la cantidad en la tabla
+        } else {
+            // Producto no existe, agregar nueva fila
+            $('#detalles_venta').append(
+              `<tr data-id="${id}" data-cantidad="${cantidadIngresada}">
+                  <td>${cantidadIngresada}</td>
+                  <td>${id}</td>
+                  <td>S/. ${precio}</td>
+              </tr>`
+            );
+        }
+
+        // Cierra la ventana modal y limpia el campo de cantidad
+        $('#stock').modal('hide');
+        $('#cantidad').val('1');
+
+        actualizarBotonVender();
+    });
+    $('#botonVender').click(function() {
+    var productos = [];
+
+    $('#detalles_venta tr').each(function() {
+        var id = $(this).data('id');
+        var cantidad = $(this).data('cantidad');
+        
+        productos.push({ id: id, cantidad: cantidad });
+    });
+
+    // Aquí puedes enviar los datos con Axios
+    enviarDatos(productos);
+});
+});
+  
+</script>

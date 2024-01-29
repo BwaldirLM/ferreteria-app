@@ -31,6 +31,14 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
+          {{#isEqual user.rol 'vendedor'}}
+          <li class="nav-item">
+            <a href="/ventas/panel" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>Panel de Venta</p>
+            </a>
+          </li>
+          {{/isEqual}}
           <li class="nav-item menu" id="producto">
             <a href="#" class="nav-link" id="principal">
               <i class="nav-icon fas fa-barcode"></i>
